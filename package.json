@@ -1,0 +1,47 @@
+{
+  "name": "dotveil",
+  "version": "1.0.1",
+  "description": "Zero-Knowledge .env sync CLI",
+  "main": "dist/index.js",
+  "bin": {
+    "dotveil": "./dist/index.js"
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsc",
+    "dev": "ts-node src/index.ts",
+    "start": "node dist/index.js",
+    "link": "npm link",
+    "unlink": "npm unlink -g dotveil",
+    "prepublishOnly": "npm run build"
+  },
+  "keywords": [
+    "env",
+    "secrets",
+    "zero-knowledge",
+    "encryption"
+  ],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "axios": "^1.6.2",
+    "chalk": "^4.1.2",
+    "cli-table3": "^0.6.5",
+    "commander": "^11.1.0",
+    "dotenv": "^16.3.1",
+    "fs-extra": "^11.3.1",
+    "inquirer": "^9.2.12",
+    "keytar": "^7.9.0",
+    "open": "^11.0.0",
+    "ora": "^5.4.1"
+  },
+  "devDependencies": {
+    "@types/fs-extra": "^11.0.4",
+    "@types/inquirer": "^9.0.7",
+    "@types/node": "^20.10.4",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.3.3"
+  }
+}
