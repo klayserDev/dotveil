@@ -91,7 +91,7 @@ steps:
     run: npm install -g dotveil
 
   - name: Pull Secrets
-    run: dotveil pull --env production --token ${{ secrets.DOTVEIL_TOKEN }}
+    run: dotveil pull --env production
 
   - name: Build
     run: npm run build
