@@ -170,6 +170,14 @@ export class ApiClient {
   }
 
   /**
+   * Update environment settings (RBAC)
+   */
+  async updateEnvironment(projectId: string, name: string, data: { allowedPushRoles?: string[], allowedPullRoles?: string[] }): Promise<any> {
+    const response = await this.client.patch(`/projects/${projectId}/envs/${name}`, data);
+    return response.data;
+  }
+
+  /**
    * Lookup user by email
    */
   async lookupUser(email: string): Promise<{ id: string; email: string; publicKey: string }> {

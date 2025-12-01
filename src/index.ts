@@ -13,7 +13,7 @@ import { cloneCommand } from './commands/clone';
 import { dashboardCommand } from './commands/dashboard';
 import { keysCommand } from './commands/keys';
 import { deleteCommand } from './commands/delete';
-
+import { whoamiCommand } from './commands/whoami';
 import { rollbackCommand } from './commands/rollback';
 import { switchCommand } from './commands/switch';
 
@@ -39,5 +39,6 @@ program.addCommand(keysCommand);
 program.addCommand(deleteCommand);
 program.addCommand(rollbackCommand);
 program.addCommand(switchCommand);
+program.addCommand(whoamiCommand);
 
 program.parse(process.argv);

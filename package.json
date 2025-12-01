@@ -1,6 +1,6 @@
 {
   "name": "dotveil",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Zero-Knowledge .env sync CLI",
   "main": "dist/index.js",
   "bin": {
@@ -31,6 +31,7 @@
     "cli-table3": "^0.6.5",
     "commander": "^11.1.0",
     "dotenv": "^16.3.1",
+    "figlet": "^1.9.4",
     "fs-extra": "^11.3.1",
     "inquirer": "^9.2.12",
     "keytar": "^7.9.0",
@@ -39,6 +40,7 @@
   },
   "devDependencies": {
     "@types/fs-extra": "^11.0.4",
+    "@types/figlet": "^1.7.0",
     "@types/inquirer": "^9.0.7",
     "@types/node": "^20.10.4",
     "ts-node": "^10.9.2",

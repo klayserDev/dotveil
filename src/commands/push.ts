@@ -185,6 +185,11 @@ export const pushCommand = new Command('push')
             spinner.succeed(chalk.green(`Secrets pushed to ${environment} environment!`));
         } catch (error: any) {
             spinner.fail('Failed to push secrets');
-            console.error(chalk.red(error.response?.data?.error || error.message));
+            if (error.response?.status === 403) {
+                console.error(chalk.red('⛔ Permission denied: ' + (error.response?.data?.error || 'You do not have permission to push to this environment.')));
+                console.log(chalk.gray('Check your role in the project settings or ask an admin for access.'));
+            } else {
+                console.error(chalk.red(error.response?.data?.error || error.message));
+            }
         }
     });

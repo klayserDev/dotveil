@@ -172,3 +172,54 @@ envCommand.command('select <name>')
             console.error(chalk.red('Failed to update dotveil.json'));
         }
     });
+
+envCommand.command('patch <name>')
+    .description('Update environment settings (RBAC)')
+    .option('--push-roles <roles>', 'Comma-separated list of roles allowed to push (e.g. OWNER,ADMIN)')
+    .option('--pull-roles <roles>', 'Comma-separated list of roles allowed to pull (e.g. OWNER,ADMIN,VIEWER)')
+    .action(async (name, options) => {
+        const apiClient = new ApiClient();
+        const storage = new StorageManager();
+
+        if (!(await storage.isLoggedIn())) {
+            console.log(chalk.red('❌ You must be logged in.'));
+            return;
+        }
+
+        const token = await storage.getAccessToken();
+        if (token) apiClient.setAccessToken(token);
+
+        if (!(await fs.pathExists('dotveil.json'))) {
+            console.log(chalk.red('❌ dotveil.json not found. Run dotveil init first.'));
+            return;
+        }
+
+        if (!options.pushRoles && !options.pullRoles) {
+            console.log(chalk.yellow('⚠️  No updates specified. Use --push-roles or --pull-roles.'));
+            return;
+        }
+
+        const spinner = ora(`Updating environment "${name}"...`).start();
+
+        try {
+            const config = await fs.readJSON('dotveil.json');
+
+            const updates: any = {};
+            if (options.pushRoles) {
+                updates.allowedPushRoles = options.pushRoles.split(/[, ]+/).filter(Boolean).map((r: string) => r.trim().toUpperCase());
+            }
+            if (options.pullRoles) {
+                updates.allowedPullRoles = options.pullRoles.split(/[, ]+/).filter(Boolean).map((r: string) => r.trim().toUpperCase());
+            }
+
+            await apiClient.updateEnvironment(config.projectId, name, updates);
+
+            spinner.succeed(chalk.green(`Environment "${name}" updated!`));
+            if (updates.allowedPushRoles) console.log(chalk.gray(`  Push Roles: ${updates.allowedPushRoles.join(', ')}`));
+            if (updates.allowedPullRoles) console.log(chalk.gray(`  Pull Roles: ${updates.allowedPullRoles.join(', ')}`));
+
+        } catch (error: any) {
+            spinner.fail('Failed to update environment');
+            console.error(chalk.red(error.response?.data?.error || error.message));
+        }
+    });
